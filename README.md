@@ -1,6 +1,6 @@
 # elongHMM
 
-This program is used to infer RNA Polymerase 2 (Pol2) elongation rate from Pro-seq/Gro-seq bam files using a 2-state hidden Markov model (HMM).
+This program provides functions used to infer RNA Polymerase 2 (Pol2) elongation rate from Pro-seq/Gro-seq bam files using a 2-state hidden Markov model (HMM).
 
 ## Usage
 
