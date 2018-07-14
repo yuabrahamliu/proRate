@@ -30,27 +30,27 @@ parseConfig <- function(){
   
   time2file <- unlist(strsplit(time2file, split = ' = '))[2]
   if(is.na(time2file)){
-    print('Please provide the time point2 bam file')
+    cat('Please provide the time point2 bam file\n')
     q(save = 'no')
   }
   samplepair <- unlist(strsplit(samplepair, split = ' = '))[2]
   if(is.na(samplepair)){
-    print('Please provide the sample pair name')
+    cat('Please provide the sample pair name\n')
     q(save = 'no')
   }
   time1file <- unlist(strsplit(time1file, split = ' = '))[2]
   if(is.na(time1file)){
-    print('Please provide the time point1 bam file')
+    cat('Please provide the time point1 bam file\n')
     q(save = 'no')
   }
   targetfile <- unlist(strsplit(targetfile, split = ' = '))[2]
   if(is.na(targetfile)){
-    print('Please provide the target gene list')
+    cat('Please provide the target gene list\n')
     q(save = 'no')
   }
   time <- as.numeric(unlist(strsplit(time, split = ' = '))[2])
   if(is.na(time)){
-    print('Please provide the elongation time')
+    cat('Please provide the elongation time\n')
     q(save = 'no')
   }
   strandmethod <- unlist(strsplit(strandmethod, split = ' = '))[2]
@@ -112,6 +112,8 @@ windowAnalysis <- function(reads, strand="*", chrom=NULL) {
     normchroms <- chroms[grepl('chr', chroms)]
     normchroms <- normchroms[normchroms != 'chrM']
     normchroms <- unique(normchroms)
+    testlist <- testlist[normchroms]
+    normchroms <- names(testlist)[lapply(testlist, length) > 0]
     testlist <- testlist[normchroms]
   }
   
@@ -400,7 +402,7 @@ rateHMM <- function(){
 
 #####
 
-if(interactive()){
+if(!interactive()){
   rateHMM()
 }
 
