@@ -1,9 +1,0 @@
-Rscript = /home/yl121/packages/R/bin/Rscript
-time2file = bd16Aligned.sortedByCoord.out.qc.sorted.chrX.bam
-samplepair = WT_15min_0min
-time1file = bd12Aligned.sortedByCoord.out.qc.sorted.chrX.bam
-targetfile = uniq_target.txt
-time = 15
-strandmethod = 1
-kscutoff = 0.01
-prirate = None
