@@ -1,0 +1,56 @@
+Package: proRate
+Title: Infer RNA Polymerase II elongation rate from Pro-seq
+Version: 1.0.0
+Authors@R: c(
+    person(given = "Yu",
+           family = "Liu",
+           role = c("aut", "cre"),
+           email = "yuabrahamliu@gmail.com",
+           comment = c(ORCID = "0000-0002-8631-4347")), 
+    person(given = "Fadhl", 
+	       family = "Alakwaa", 
+		   role = c("aut"), 
+		   email = "alakwaaf@med.umich.edu", 
+		   comment = c(ORCID = "0000-0001-5349-7960")))
+Description: The main purpose of this R package is to provide functions used 
+    to infer RNA Polymerase II (PolII) elongation rate from Pro-seq/Gro-seq 
+	data using a novel least sum of square (LSS) method. It also contains 
+	other functions to do metagene plotting, pausing index calculation, and 
+	gene structure analysis, etc.
+Imports: 
+    GenomicRanges (>= 1.40.0),
+    BiocGenerics (>= 0.34.0),
+    GenomicFeatures (>= 1.40.1),
+    Biostrings (>= 2.56.0),
+    seqinr (>= 3.6.1),
+    AnnotationDbi (>= 1.50.3),
+    GenomeInfoDb (>= 1.24.2),
+    GenomicAlignments (>= 1.24.0),
+    SummarizedExperiment (>= 1.18.2),
+    S4Vectors (>= 0.26.1),
+    XVector (>= 0.28.0),
+    ggplot2 (>= 3.3.2),
+    scales (>= 1.1.1),
+    grid (>= 4.0.2),
+    IRanges (>= 2.22.2),
+    parallel (>= 4.0.2),
+    doParallel (>= 1.0.15),
+    foreach (>= 1.5.0),
+    limma (>= 3.44.3),
+    BSgenome.Mmusculus.UCSC.mm10 (>= 1.4.0),
+    TxDb.Mmusculus.UCSC.mm10.knownGene (>= 3.10.0),
+    org.Mm.eg.db (>= 3.11.4)
+Suggests: 
+    BSgenome.Hsapiens.UCSC.hg38 (>= 1.4.3),
+    TxDb.Hsapiens.UCSC.hg38.knownGene (>= 3.10.0),
+    org.Hs.eg.db (>= 3.12.0),
+    knitr,
+    rmarkdown
+Depends: 
+    R (>= 4.0.2)
+License: `use_mit_license(name = find_name())`
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+VignetteBuilder: knitr
