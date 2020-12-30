@@ -415,7 +415,7 @@ towig <- function(reads, strand = "*", chrom = NULL){
   H <- list()
   for(i in 1:length(testlist)){
     x <- testlist[[i]]
-    seqlevels(x) <- GenomicAlignments::seqlevelsInUse(x)
+    GenomeInfoDb::seqlevels(x) <- GenomicAlignments::seqlevelsInUse(x)
     #seqlevels contains all the chrs in a factor
     #seqlevelsInUse only contains the chrs present in x
     
