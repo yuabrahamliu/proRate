@@ -14,7 +14,7 @@ function. If it is NULL (The default value), all genes provided by the
 parameter \code{reslist} will be analyzed. If its value is 'significant',
 only genes judged as significant genes by \code{mcalrate} will be
 included. While the the value of this parameter can also be a vector with
-gene symbols as elements and only genes coverred by this vector will be
+gene symbols as elements and only genes covered by this vector will be
 included.}
 }
 \value{
