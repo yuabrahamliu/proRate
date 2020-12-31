@@ -90,9 +90,9 @@ limmacomp <- function(mat1 = dat1, mat2 = dat2){
 #'  \code{inferres} will be analyzed. If its value is 'significant', only 
 #'  genes judged as significant genes by \code{calrate} or \code{mcalrate} 
 #'  will be analyzed. While the the value of this parameter can also be a 
-#'  vector with gene symbols as elements and only genes coverred by this 
+#'  vector with gene symbols as elements and only genes covered by this 
 #'  vector will be analyzed.
-#'@param quantilenum How many quantile groups need to be divied. Default value 
+#'@param quantilenum How many quantile groups need to be divided. Default value 
 #'  is 4. 
 #'@return A list with 2 data.frames as elements. One of them records the 
 #'  absolute elongation rates of the genes (bp/min) and divide the genes into 
@@ -214,7 +214,7 @@ intracompare <- function(inferres, targetgenes = NULL, quantilenum = 4){
 #'  parameter \code{reslist} will be analyzed. If its value is 'significant', 
 #'  only genes judged as significant genes by \code{mcalrate} will be 
 #'  included. While the the value of this parameter can also be a vector with 
-#'  gene symbols as elements and only genes coverred by this vector will be 
+#'  gene symbols as elements and only genes covered by this vector will be 
 #'  included. 
 #'@return A data.frame with the 1st column as gene symbols and the other 
 #'  columns as gene elongation rates inferred for each Pro-seq or Gro-seq 
