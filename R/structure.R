@@ -18,7 +18,7 @@
 #'@return A data.frame with a column named GC indicating the GC contents of 
 #'  the gene regions. 
 #'@export
-getgc <- function(targetfile, genomename = 'mm10', genenames = NULL){
+getgc <- function(targetfile = NULL, genomename = 'mm10', genenames = NULL){
   
   #library(GenomicAlignments)
   
@@ -238,7 +238,7 @@ selectfisher <- function(freqvec1 = kmerres2, freqvec2 = kmerres1){
 #'  set 1 and set 2, as well as p-values (calculated with Fisher's test) and 
 #'  adjusted p-values (adjusted using the Benjamini & Hochberg method).
 #'@export
-getkmer <- function(targetfile, genomename = 'mm10', k = 6,
+getkmer <- function(targetfile = NULL, genomename = 'mm10', k = 6,
                     genes1,
                     genes2,
                     feature,
@@ -335,7 +335,7 @@ getkmer <- function(targetfile, genomename = 'mm10', k = 6,
 #'@return A data.frame with a column named exon indicating the exon coverages 
 #'  of the gene regions. 
 #'@export
-getexon <- function(targetfile, genomename = 'mm10', genenames = NULL){
+getexon <- function(targetfile = NULL, genomename = 'mm10', genenames = NULL){
   
   #library(GenomicAlignments)
   
