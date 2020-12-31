@@ -1019,6 +1019,7 @@ calrate <- function(time1file, time2file,
   }else if(!is.null(genomename)){
     
     genes <- get(paste0(genomename, '.packagegenes'))
+    genes <- GenomicRanges::GRanges(genes)
     
     genes <- genes[genes@ranges@width >= max(2*(startshorten + endshorten), genelencutoff)]
     

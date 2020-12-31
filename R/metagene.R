@@ -798,6 +798,7 @@ metaplot <- function(metafile,
   }else if(!is.null(genomename)){
     
     genes <- get(paste0(genomename, '.packagegenes'))
+    genes <- GenomicRanges::GRanges(genes)
     
     genes <- genes[genes@ranges@width > max(c(tssradius, ttsradius, genelencutoff))]
     

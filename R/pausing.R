@@ -78,6 +78,7 @@ makepauseregion <- function(filename = pauseidxtargetfile, pauselen = 1000, geno
   }else if(!is.null(genomename)){
     
     genes <- get(paste0(genomename, '.packagegenes'))
+    genes <- GenomicRanges::GRanges(genes)
     
     genes <- genes[genes@ranges@width > max(pauselen, genelencutoff)]
     

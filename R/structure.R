@@ -55,6 +55,7 @@ getgc <- function(targetfile, genomename = 'mm10', genenames = NULL){
   }else if(!is.null(genomename)){
     
     genes <- get(paste0(genomename, '.packagegenes'))
+    genes <- GenomicRanges::GRanges(genes)
     
     if(!is.null(genenames)){
       genes <- subset(genes, gene_id %in% genenames)
@@ -272,6 +273,7 @@ getkmer <- function(targetfile, genomename = 'mm10', k = 6,
   }else if(!is.null(genomename)){
     
     genes <- get(paste0(genomename, '.packagegenes'))
+    genes <- GenomicRanges::GRanges(genes)
     
     genes <- GenomicAlignments::sort(genes)
     names(genes) <- 1:length(genes)
@@ -370,6 +372,7 @@ getexon <- function(targetfile, genomename = 'mm10', genenames = NULL){
   }else if(!is.null(genomename)){
     
     genes <- get(paste0(genomename, '.packagegenes'))
+    genes <- GenomicRanges::GRanges(genes)
     
     if(!is.null(genenames)){
       genes <- subset(genes, gene_id %in% genenames)
