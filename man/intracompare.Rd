@@ -15,10 +15,10 @@ it is NULL (The default value), all genes provided by the parameter
 \code{inferres} will be analyzed. If its value is 'significant', only
 genes judged as significant genes by \code{calrate} or \code{mcalrate}
 will be analyzed. While the the value of this parameter can also be a
-vector with gene symbols as elements and only genes coverred by this
+vector with gene symbols as elements and only genes covered by this
 vector will be analyzed.}
 
-\item{quantilenum}{How many quantile groups need to be divied. Default value
+\item{quantilenum}{How many quantile groups need to be divided. Default value
 is 4.}
 }
 \value{
