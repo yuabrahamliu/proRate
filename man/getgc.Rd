@@ -4,7 +4,7 @@
 \alias{getgc}
 \title{Calculate GC content for specific gene regions}
 \usage{
-getgc(targetfile, genomename = "mm10", genenames = NULL)
+getgc(targetfile = NULL, genomename = "mm10", genenames = NULL)
 }
 \arguments{
 \item{targetfile}{The directory of the file indicating the gene regions

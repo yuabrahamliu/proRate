@@ -5,7 +5,7 @@
 \title{Compare the kmer difference between 2 sets of sequences}
 \usage{
 getkmer(
-  targetfile,
+  targetfile = NULL,
   genomename = "mm10",
   k = 6,
   genes1,

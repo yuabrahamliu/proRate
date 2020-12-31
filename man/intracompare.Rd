@@ -18,8 +18,8 @@ will be analyzed. While the the value of this parameter can also be a
 vector with gene symbols as elements and only genes covered by this
 vector will be analyzed.}
 
-\item{quantilenum}{How many quantile groups need to be divided. Default value
-is 4.}
+\item{quantilenum}{How many quantile groups need to be divided. Default
+value is 4.}
 }
 \value{
 A list with 2 data.frames as elements. One of them records the

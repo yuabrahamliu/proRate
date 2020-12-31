@@ -4,7 +4,7 @@
 \alias{getexon}
 \title{Calculate exon coverages for specific gene regions}
 \usage{
-getexon(targetfile, genomename = "mm10", genenames = NULL)
+getexon(targetfile = NULL, genomename = "mm10", genenames = NULL)
 }
 \arguments{
 \item{targetfile}{The directory of the file indicating the gene regions
