@@ -92,8 +92,8 @@ limmacomp <- function(mat1 = dat1, mat2 = dat2){
 #'  will be analyzed. While the the value of this parameter can also be a 
 #'  vector with gene symbols as elements and only genes covered by this 
 #'  vector will be analyzed.
-#'@param quantilenum How many quantile groups need to be divided. Default value 
-#'  is 4. 
+#'@param quantilenum How many quantile groups need to be divided. Default 
+#'  value is 4. 
 #'@return A list with 2 data.frames as elements. One of them records the 
 #'  absolute elongation rates of the genes (bp/min) and divide the genes into 
 #'  several quantile groups with genes in quantile1 group having the lowest 
