@@ -11,7 +11,7 @@ mcalpauseidx(
   tssradius = 1000,
   labels,
   strandmethod = 1,
-  savegenenames,
+  savegenenames = NULL,
   plotgenenames = TRUE,
   mergecases = FALSE,
   threads = 1,

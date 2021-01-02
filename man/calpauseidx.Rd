@@ -11,7 +11,7 @@ calpauseidx(
   tssradius = 1000,
   label = NULL,
   strandmethod = 1,
-  savegenenames,
+  savegenenames = NULL,
   plotgenenames = TRUE,
   threads = 1,
   genelencutoff = NULL,

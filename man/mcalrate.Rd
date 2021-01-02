@@ -14,7 +14,7 @@ mcalrate(
   threads = 1,
   mergerefs = TRUE,
   mergecases = FALSE,
-  savegenenames,
+  savegenenames = NULL,
   plotgenenames = TRUE,
   genelencutoff = 70000,
   fpkmcutoff = 1

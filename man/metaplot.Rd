@@ -14,7 +14,7 @@ metaplot(
   label = NULL,
   strandmethod = 1,
   threads = 1,
-  savegenenames,
+  savegenenames = NULL,
   plotgenenames = TRUE,
   plotfig = TRUE,
   genelencutoff = NULL,

@@ -14,7 +14,7 @@ mmetaplot(
   labels,
   strandmethod = 1,
   threads = 1,
-  savegenenames,
+  savegenenames = NULL,
   plotgenenames = TRUE,
   mergecases = FALSE,
   genelencutoff = NULL,
