@@ -974,7 +974,7 @@ calrate <- function(time1file, time2file,
                     time,
                     strandmethod = 1, 
                     threads = 1,
-                    savegenenames, plotgenenames = TRUE,
+                    savegenenames = NULL, plotgenenames = TRUE,
                     genelencutoff = 70000,
                     fpkmcutoff = 1){
   
@@ -1314,7 +1314,7 @@ mcalrate <- function(time1files,
                      strandmethod = 1, 
                      threads = 1,
                      mergerefs = TRUE, mergecases = FALSE,
-                     savegenenames, plotgenenames = TRUE,
+                     savegenenames = NULL, plotgenenames = TRUE,
                      genelencutoff = 70000,
                      fpkmcutoff = 1){
   

@@ -761,7 +761,7 @@ metaplot <- function(metafile,
                      label = NULL,
                      strandmethod = 1,
                      threads = 1,
-                     savegenenames, plotgenenames = TRUE, plotfig = TRUE,
+                     savegenenames = NULL, plotgenenames = TRUE, plotfig = TRUE,
                      genelencutoff = NULL,
                      fpkmcutoff = 1){
   
@@ -1285,7 +1285,7 @@ mmetaplot <- function(metafiles,
                       labels,
                       strandmethod = 1,
                       threads = 1,
-                      savegenenames, plotgenenames = TRUE,
+                      savegenenames = NULL, plotgenenames = TRUE,
                       mergecases = FALSE,
                       genelencutoff = NULL,
                       fpkmcutoff = 1){
