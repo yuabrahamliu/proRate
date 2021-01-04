@@ -45,7 +45,7 @@ install_github('yuabrahamliu/proRate')
 
 ## Data preparation
 
-To domenstrate the functions of *proRate*, this tutorial uses some data that accompany with the package, including 4 bam files and a txt file. 
+To demonstrate the functions of *proRate*, this tutorial uses some data that accompany with the package, including 4 bam files and a txt file. 
 
 
 
@@ -90,11 +90,11 @@ To define the target genes whose transcription rate need to be calculated, the `
 
 
 
-Among the target genes defined, if there are some whose reads values need to be checked in detail, a vector containing the symbols of these genes can be transferred to the parameter `savegenenames`, and then their normalized reads values for each bp along the gene body will be returned with the final results. In addtion, the `plotgenenames` parameter can be set as TRUE to futher plot and show the Pol II depleted region and occupied region of these genes.
+Among the target genes defined, if there are some whose reads values need to be checked in detail, a vector containing the symbols of these genes can be transferred to the parameter `savegenenames`, and then their normalized reads values for each bp along the gene body will be returned with the final results. In addition, the `plotgenenames` parameter can be set as TRUE to futher plot and show the Pol II depleted region and occupied region of these genes.
 
 
 
-Hence, the transcriptoin rate for the genes in WT C2C12 cells can be calculated using the following command.
+Hence, the transcription rate for the genes in WT C2C12 cells can be calculated using the following command.
 
 ```
 wtrates <- calrate(time1file = wt0file, time2file = wt15file, 
@@ -105,7 +105,7 @@ wtrates <- calrate(time1file = wt0file, time2file = wt15file,
                    plotgenenames = TRUE)
 ```
 
-The result `wtrates` is a list and its most important element is a data.frame named "report". It contains the distance that Pol II passes (i.e. the length of the Pol II depleted region) on each gene template, which is inferred using the least sum of square (LSS) method of *proRate*. Additionally, the Pol II travel time (15 min here for all genes), the final rate calculated from these 2 values, the statistical signficance of the results, as well as many other information are also included in this data.frame. A part of it is shown below.
+The result `wtrates` is a list and its most important element is a data.frame named "report". It contains the distance that Pol II passes (i.e. the length of the Pol II depleted region) on each gene template, which is inferred using the least sum of square (LSS) method of *proRate*. Additionally, the Pol II travel time (15 min here for all genes), the final rate calculated from these 2 values, the statistical significance of the results, as well as many other information are also included in this data.frame. A part of it is shown below.
 
 ```{r, echo=FALSE, results='hide'}
 library(S4Vectors)
@@ -136,7 +136,7 @@ knitr::include_graphics("C:/Users/abrah/Desktop/tmp/enlongation/elongHMM/tutoria
 knitr::include_graphics("C:/Users/abrah/Desktop/tmp/enlongation/elongHMM/tutorial_res/figs/Gkbins.png")
 ```
 
-The transition point at this stage is actually a bin including hundreds of bases. To get a more precise position, this bin and its downstream one will be expanded to a single base resolution. The LSS method will be used on them to find the base with the smallest sum of square. This point is the final transition point. The single base level results on the 2 expanded bins are also plotted by `calrate`, for Tbl1x and Gk resepctively.
+The transition point at this stage is actually a bin including hundreds of bases. To get a more precise position, this bin and its downstream one will be expanded to a single base resolution. The LSS method will be used on them to find the base with the smallest sum of square. This point is the final transition point. The single base level results on the 2 expanded bins are also plotted by `calrate`, for Tbl1x and Gk respectively.
 
 ```{r, echo=FALSE, out.width = '100%'}
 knitr::include_graphics("C:/Users/abrah/Desktop/tmp/enlongation/elongHMM/tutorial_res/figs/tbl1xextends.png")
@@ -289,7 +289,7 @@ The parameter `time1files` requires a vector with the reference bam file directo
 
 
 
-Although `wt0file` and `ko0file` are from different types of C2C12 cells, both of them are not treated with DRB, so no Pol II depleted region should appear on their gene templates. If want to merge these 2 DRB 0 min files together and serve as a uniform refernce for both the WT and KO group, the parameter `mergerefs` can be set as TRUE. Otherwise, set it as FALSE.
+Although `wt0file` and `ko0file` are from different types of C2C12 cells, both of them are not treated with DRB, so no Pol II depleted region should appear on their gene templates. If want to merge these 2 DRB 0 min files together and serve as a uniform reference for both the WT and KO group, the parameter `mergerefs` can be set as TRUE. Otherwise, set it as FALSE.
 
 
 
@@ -307,7 +307,7 @@ mrates <- mcalrate(time1files = c(wt0file, ko0file),
                    threads = 4)
 ```
 
-The result `mrates` is a list with 2 sub-lists. The first one is the result for the WT bam file pair, while the second one is for the KO bam file pair. For each of the sub-list, its structure is the same as that of the list generated by `calrate`, with a data.frame named "report" containing the main inference results, as well as 2 other elements recording the reads values for specific genes if some gene symbols have transferred to the paramter `savegenenames`.
+The result `mrates` is a list with 2 sub-lists. The first one is the result for the WT bam file pair, while the second one is for the KO bam file pair. For each of the sub-list, its structure is the same as that of the list generated by `calrate`, with a data.frame named "report" containing the main inference results, as well as 2 other elements recording the reads values for specific genes if some gene symbols have transferred to the parameter `savegenenames`.
 
 ## Inter-rate statistics
 
@@ -407,7 +407,7 @@ The exact FPM values shown in the metagene plots are also included in `metaresli
 
 ## Pause index
 
-Pause index (or pausing index) is the ratio of transcription polymeras II signal density near a gene promoter to signal density within the gene body *(Williams, et al., 2015)*. A gene with a large pause index means most poymerase II molecules accumulate in its promoter region, while few of them enter into the downstream gene body. Hence, most polymerases pause in the promoter and cannot be released to complete the downstream transcription.
+Pause index (or pausing index) is the ratio of transcription polymerase II signal density near a gene promoter to signal density within the gene body *(Williams, et al., 2015)*. A gene with a large pause index means most polymerase II molecules accumulate in its promoter region, while few of them enter into the downstream gene body. Hence, most polymerases pause in the promoter and cannot be released to complete the downstream transcription.
 
 
 
