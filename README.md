@@ -5,7 +5,7 @@
 
 ## Introduction
 
-The dynamics of transcriptional elongation can influence various post-transcriptional processes, such as splicing, polyadenylation, and nuclear export, etc *(Bentley, 2014; Lei, et al., 2001; Wallace and Beggs, 2017)*. To quantify the elongation rate, a typical method is to treat cells with drugs able to inhibit Polymerase II (Pol II) from entering the genes and starting transcription, such as DRB (5,6-dichloro-1-β-d-ribofuranosylbenzimidazole), and then track Pol II using Pro-seq or Gro-seq *(Hou, et al., 2019)*. As the DRB dependent blocking of Pol II entry persists, a read blank region will form on gene body because few Pol II enter into the DNA template. Downstream of this blank region (Pol II depleted state) is the intact reads region (Pol II occupied state) formed by the unaffected Pol II having entered the gene before the drug blocking. Hence, the length of the blank region is considered as the distance that Pol II should have gone through during the blocking period, and the corresponding Pol II transcription rate can be obtained based on this distance and the blocking time.
+The dynamics of transcriptional elongation can influence various post-transcriptional processes, such as splicing, polyadenylation, and nuclear export, etc *(Bentley, 2014; Lei, et al., 2001; Wallace and Beggs, 2017)*. To quantify the elongation rate, a typical method is to treat cells with drugs able to inhibit Polymerase II (Pol II) from entering the gene bodies and starting transcription, such as DRB (5,6-dichloro-1-β-d-ribofuranosylbenzimidazole), and then track Pol II using Pro-seq or Gro-seq *(Hou, et al., 2019)*. As the DRB dependent blocking of Pol II entry persists, a read blank region will form on gene body because few Pol II enter into it. Downstream of this blank region (Pol II depleted state) is the intact reads region (Pol II occupied state) formed by the unaffected Pol II having entered the gene body before the drug blocking. Hence, the length of the blank region is considered as the distance that Pol II should have gone through during the blocking period, and the corresponding Pol II transcription rate can be obtained based on this distance and the blocking time.
 
 To get the distance, the transition point between the Pol II depleted state and occupied state must be identified. Traditionally, a 2-state hidden Markov model (HMM) is used to infer this elongation rate from Pro-seq or Gro-seq data *(Hou, et al., 2019)*. Here, we developed the R package *proRate*, which uses a novel least sum of square (LSS) method to calculate the rate and gets rid of the data distribution limitation of HMM model, as well as its complex parameter estimation steps. In addition, this package also offers other functions frequently used when study transcription dynamics, such as metagene plotting, pausing index calculation, differential gene identification, etc.
 
@@ -25,7 +25,7 @@ install_github('yuabrahamliu/proRate')
 
 To demonstrate the functions of *proRate*, this tutorial uses some data that accompany with the package, including 4 bam files and a txt file. 
 
-All the 4 bam files are from a previous work studying the influence of the elongation factor Paf1 on RNA polymerase II transcription rate *(Hou, et al., 2019)*. Shortly, gene editing was used to produce mouse myoblast C2C12 cells with the factor Paf1 **conditionally** knocked out (KO cells), while some wild C2C12 cells with intact Paf1 expression were used as controls (WT cells). Then, both the KO cells and WT cells were divided into 2 groups, one of them was treated with the drug DRB to block RNA polymerase II from entering the gene templates and starting transcription for 15 min (15 min group), while the other was not treated with DRB (0 min group). Hence, the 4 bam files represent 4 experimental conditions. They are WT cells + 0 min DRB (wt0), WT cells + 15 min DRB (wt15), KO cells + 0 min DRB (ko0), and KO cells + 15 min DRB (ko15). After the DRB treatment step, Pro-seq was used to sequence nascent RNA for the C2C12 cells in these 4 conditions and the bam files were transformed from these Pro-seq data. To simplify the analysis in this tutorial, only reads from mouse chromosome X are included in the 4 bam files. 
+All the 4 bam files are from a previous work studying the influence of the elongation factor Paf1 on RNA polymerase II transcription rate *(Hou, et al., 2019)*. Shortly, gene editing was used to produce mouse myoblast C2C12 cells with the factor Paf1 **conditionally** knocked out (KO cells), while some wild C2C12 cells with intact Paf1 expression were used as controls (WT cells). Then, both the KO cells and WT cells were divided into 2 groups, one of them was treated with the drug DRB to block RNA polymerase II from entering the gene bodies for 15 min (15 min group), while the other was not treated with DRB (0 min group). Hence, the 4 bam files represent 4 experimental conditions. They are WT cells + 0 min DRB (wt0), WT cells + 15 min DRB (wt15), KO cells + 0 min DRB (ko0), and KO cells + 15 min DRB (ko15). After the DRB treatment step, Pro-seq was used to sequence nascent RNA for the C2C12 cells in these 4 conditions and the bam files were transformed from these Pro-seq data. To simplify the analysis in this tutorial, only reads from mouse chromosome X are included in the 4 bam files. 
 
 The txt file that will be used in this tutorial records the coordinate information of 47 genes in mouse chromosome X, including their chromosomes (column "chr" in this txt file), their gene start coordinates (column "start" in this txt file), gene end coordinates (column "end"), strand +/- information (column "strand"), gene symbols (column "gene_id"), and corresponding mRNA accessions (column "id"). This file will provide these 47 genes as the ones need to be analyzed to *proRate*. It should be noted that the gene coordinates in this txt file are 0-based coordinates, which follows the rule of *Python*, but the functions in *proRate* will automatically convert them to 1-based coordinates internally, which follows the rule of *R*.
 
@@ -63,7 +63,7 @@ wtrates <- calrate(time1file = wt0file, time2file = wt15file,
                    plotgenenames = TRUE)
 ```
 
-The result `wtrates` is a list and its most important element is a data.frame named "report". It contains the distance that Pol II passes (i.e. the length of the Pol II depleted region) on each gene template, which is inferred using the least sum of square (LSS) method of *proRate*. Additionally, the Pol II travel time (15 min here for all genes), the final rate calculated from these 2 values, the statistical significance of the results, as well as many other information are also included in this data.frame.
+The result `wtrates` is a list and its most important element is a data.frame named "report". It contains the distance that Pol II passes (i.e. the length of the Pol II depleted region) on each gene, which is inferred using the least sum of square (LSS) method of *proRate*. Additionally, the Pol II travel time (15 min here for all genes), the final rate calculated from these 2 values, the statistical significance of the results, as well as many other information are also included in this data.frame.
 
 For the 2 genes Tbl1x and Gk, whose symbols have been transferred to the parameter `savegenenames`, their normalized reads values for each bp are saved in another 2 list elements named "genereads1" and "genereads2", which correspond to the values in `time1file` and `time2file` respectively. These values are also plotted by `calrate`, so the gene reads distributions in the 2 time files can be seen directly, as shown below.
 
@@ -87,7 +87,9 @@ The transition point at this stage is actually a bin including hundreds of bases
 
 After the rate inference for WT C2C12 cells, the transcriptional rates of different genes can be compared within the WT cells using the function `intracompare`. For its parameter `inferres`, transfer the result list from `calrate` directly to it, while for the parameter `quantilenum`, set it as 2 here, which means the genes will be divided into 2 quantile groups based on their transcriptional rates.
 
+```
 intracompareres <- intracompare(inferres = wtrates, quantilenum = 2)
+```
 
 The result `intracompareres` is a list with 2 elements. One is a data.frame containing the absolute rates (bp/min) of the genes, while the other records the relative rates (portion of the whole gene body/min). The genes with a greater absolute or relative rates are attributed as quantile2 genes, while the smaller ones are quantile1 genes.
 
@@ -95,11 +97,13 @@ The result `intracompareres` is a list with 2 elements. One is a data.frame cont
 
 Because gene structure can influence transcriptional dynamics, *proRate* provides some functions working on this aspect. For example, `getgc` and `getexon` can calculate the GC contents and exon coverages for specific gene regions.
 
+```
 intraabsresgc <- getgc(genomename = 'mm10', 
                        genenames = intracompareres$absolute_rate$gene_id)
 
 intraabsresexon <- getexon(genomename = 'mm10', 
                            genenames = intracompareres$absolute_rate$gene_id)
+```
 
 The parameter `genenames` defines which genes should be analyzed. 
 
@@ -148,7 +152,7 @@ comparequantiles(structureres = intraabsresexon,
 
 ![](https://github.com/yuabrahamliu/proRate/blob/master/vignettes/intraexoncomp.png)
 
-To check whether there is any k-mer difference between the gene body sequences of quantile2 genes and quantile1 genes, the function `getkmer` can be used. Its parameter `k` defines the length of the k-mer sequences need to be analyzed, and the parameters `genes1` and `genes2` require the gene symbols of the 2 sets need to be compared. Here, `k` is set as 6, and `genes1` and `genes2` are the quantile2 and quantile1 gene symbols respectively. The command is as follows.
+To check whether there is any k-mer difference between the gene body sequences of quantile2 genes and quantile1 genes, the function `getkmer` can be used. Its parameter `k` defines the length of the k-mer sequences need to be analyzed, and the parameters `genes1` and `genes2` require the gene symbols of the 2 sets need to be compared. Here, `k` is set as 6, and `genes1` and `genes2` are the quantile2 and quantile1 gene symbols respectively. The command is shown below.
 
 ```
 intraabsreskmer <- getkmer(genomename = 'mm10', 
@@ -202,9 +206,9 @@ The above function `calrate` can only infer gene elongation rates from one pair 
 
 For example, from 2 pairs of data (wt15 vs wt0, and ko15 vs ko0), the gene elongation rates in WT C2C12 cells and KO C2C12 cells can be obtained respectively.
 
-The parameter `time1files` requires a vector with the reference bam file directories (0 min DRB treatment) as its elements. Here, it can be set as `c(wt0file, ko0file)`, while the parameter `time2files` requires the other vector containing the bam file directories for experimental group. Here, it is `c(wt15file, ko15file)`. The paired bam files in `time1files` and `time2files` should have the same index in their vectors, so that the function can identify them as a pair. Then, another parameter `times` records the time difference for the WT group and KO group files. Because both of them are 15 min, its value is `c(15, 15)`
+The parameter `time1files` requires a vector with the reference bam file directories (0 min DRB treatment) as its elements. Here, it can be set as `c(wt0file, ko0file)`, while the parameter `time2files` requires the other vector containing the bam file directories for experimental groups. Here, it is `c(wt15file, ko15file)`. The paired bam files in `time1files` and `time2files` should have the same index in their vectors, so that the function can identify them as a pair. Then, another parameter `times` records the time difference for the WT group and KO group files. Because both of them are 15 min, its value is `c(15, 15)`
 
-Although `wt0file` and `ko0file` are from different types of C2C12 cells, both of them are not treated with DRB, so no Pol II depleted region should appear on their gene templates. If want to merge these 2 DRB 0 min files together and serve as a uniform reference for both the WT and KO group, the parameter `mergerefs` can be set as TRUE. Otherwise, set it as FALSE.
+Although `wt0file` and `ko0file` are from different types of C2C12 cells, both of them are not treated with DRB, so no Pol II depleted region should appear on their gene bodies. If want to merge these 2 DRB 0 min files together and serve as a uniform reference for both the WT and KO group, the parameter `mergerefs` can be set as TRUE. Otherwise, set it as FALSE.
 
 Because bam file processing is time-consuming, the bam file relevant functions in *proRate*, such as `calrate` and `mcalrate`, provide a parallelization option and their parameter `threads` can be set to a multiple thread number to save the computing time. Here, it is set as 4, and the command is as fellow.
 
@@ -276,9 +280,9 @@ Several metagene plots can be returned, focusing on the various gene regions def
 
 ![](https://github.com/yuabrahamliu/proRate/blob/master/vignettes/metaGk_catch.PNG)
 
-The list result `metareslist` records the FPKM values for various gene regions. For example, the slot `TSSFPKMstatses` contains a data.frame with each row representing a gene and each column representing a promoter region, on either the transcriptional forward (sense) or reverse (antisense) strand. The corresponding FPKM values are recorded in this data.frame.
+The list result `metareslist` records the FPKM values for various gene regions. For example, its slot `TSSFPKMstatses` contains a data.frame with each row representing a gene and each column representing a promoter region, on either the transcriptional forward (sense) or reverse (antisense) strand. The corresponding FPKM values are recorded in this data.frame.
 
-The exact FPM values shown in the metagene plots are also included in `metareslist`. For examples, `metareslist$WT$TSSfwdmeans` is a vector with a length of 2001, covering the FPM values from 1000bp upstream of TSS, then the single TSS point, and finally to 1000bp downstream of TSS, on the forward (sense) strand.
+The exact FPM values shown in the metagene plots are also included in `metareslist`. For examples, `metareslist$WT$TSSfwdmeans` is a vector with a length of 2001, covering the FPM values from 1000bp upstream of TSS, then to the single TSS point, and finally to 1000bp downstream of TSS, on the forward (sense) strand.
 
 ## Pause index
 
