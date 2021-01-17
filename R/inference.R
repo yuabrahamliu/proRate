@@ -425,9 +425,9 @@ towig <- function(reads, strand = "*", chrom = NULL){
     to <- length(cov)
     #length(cov) = seqlengths(x), it is chrom length
     starts <- 1:to
-    vi <- XVector::Views(cov, start=starts, width=1)
+    vi <- IRanges::Views(cov, start=starts, width=1)
     
-    H[[i]] <- S4Vectors::Rle(XVector::viewSums(vi))
+    H[[i]] <- S4Vectors::Rle(IRanges::viewSums(vi))
     #viewSums calculate sums of the views in a Views or ViewsList object.
     #Here the total read num of each window can be calculated
     #Rle(values, lengths): This constructor creates an Rle instance out of
@@ -545,10 +545,10 @@ binratio <- function(singlegeneinfo,
   starts <- seq(1, to, size)
   genecov1 <- S4Vectors::Rle(emis1_adj)
   genecov2 <- S4Vectors::Rle(emis2_adj)
-  vi1 <- XVector::Views(genecov1, start = starts, width = size)
-  vi2 <- XVector::Views(genecov2, start = starts, width = size)
-  windows1 <- XVector::ViewSums(vi1)
-  windows2 <- XVector::ViewSums(vi2)
+  vi1 <- IRanges::Views(genecov1, start = starts, width = size)
+  vi2 <- IRanges::Views(genecov2, start = starts, width = size)
+  windows1 <- IRanges::ViewSums(vi1)
+  windows2 <- IRanges::ViewSums(vi2)
   
   #Generate the bin ratios between time points
   gene <- windows2/windows1
