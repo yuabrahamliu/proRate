@@ -508,7 +508,7 @@ plotends <- function(fwdreads = TSSfwdFPMmeans, revreads = TSSrevFPMmeans,
   #grid.newpage()
   p <- ggplot2::ggplot(reads_totals, mapping = ggplot2::aes(x = xcoord, y = reads, color = condition))
   
-  p <- p + ggplot2::geom_Line(size = 1) +
+  p <- p + ggplot2::geom_line(size = 1) +
     ggplot2::scale_x_continuous(breaks = c(startcoord, midcoord, endcoord),
                                 labels = c(paste0('-', halfwidth), toupper(endtype),
                                            paste0('+', halfwidth))) +
@@ -663,7 +663,7 @@ plotregions <- function(fwdreads = combinefwdFPMmeans, revreads = combinerevFPMm
   #grid.newpage()
   p <- ggplot2::ggplot(reads_totals, mapping = ggplot2::aes(x = xcoord, y = reads, color = condition))
   
-  p <- p + ggplot2::geom_Line(size = 1) +
+  p <- p + ggplot2::geom_line(size = 1) +
     ggplot2::scale_x_continuous(breaks = points,
                                 labels = pointlabels) +
     ggplot2::xlab('') + ggplot2::ylab('FPM') +
