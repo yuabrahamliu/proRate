@@ -41,6 +41,8 @@ getgc <- function(targetfile = NULL, genomename = 'mm10', genenames = NULL){
       genes <- genes[c('chr', 'start', 'end', 'strand', 'gene_id')]
       names(genes) <- c('seqnames', 'start', 'end', 'strand', 'gene_id')
       
+      names(geneframe)[names(geneframe) == 'chr'] <- 'seqnames'
+      
       genes <- GenomicRanges::GRanges(seqnames = genes$seqnames,
                                       ranges = IRanges::IRanges(start = genes$start, end = genes$end),
                                       strand = genes$strand,
@@ -261,6 +263,8 @@ getkmer <- function(targetfile = NULL, genomename = 'mm10', k = 6,
       genes <- genes[c('chr', 'start', 'end', 'strand', 'gene_id')]
       names(genes) <- c('seqnames', 'start', 'end', 'strand', 'gene_id')
       
+      names(geneframe)[names(geneframe) == 'chr'] <- 'seqnames'
+      
       genes <- GenomicRanges::GRanges(seqnames = genes$seqnames,
                                       ranges = IRanges::IRanges(start = genes$start, end = genes$end),
                                       strand = genes$strand,
@@ -357,6 +361,8 @@ getexon <- function(targetfile = NULL, genomename = 'mm10', genenames = NULL){
       
       genes <- genes[c('chr', 'start', 'end', 'strand', 'gene_id')]
       names(genes) <- c('seqnames', 'start', 'end', 'strand', 'gene_id')
+      
+      names(geneframe)[names(geneframe) == 'chr'] <- 'seqnames'
       
       genes <- GenomicRanges::GRanges(seqnames = genes$seqnames,
                                       ranges = IRanges::IRanges(start = genes$start, end = genes$end),

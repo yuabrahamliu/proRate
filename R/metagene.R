@@ -786,6 +786,8 @@ metaplot <- function(metafile,
       genes <- genes[c('chr', 'start', 'end', 'strand', 'gene_id')]
       names(genes) <- c('seqnames', 'start', 'end', 'strand', 'gene_id')
       
+      names(geneframe)[names(geneframe) == 'chr'] <- 'seqnames'
+      
       genes <- GenomicRanges::GRanges(seqnames = genes$seqnames,
                                       ranges = IRanges::IRanges(start = genes$start, end = genes$end),
                                       strand = genes$strand,

@@ -1004,6 +1004,8 @@ calrate <- function(time1file, time2file,
       genes <- genes[c('chr', 'start', 'end', 'strand', 'gene_id')]
       names(genes) <- c('seqnames', 'start', 'end', 'strand', 'gene_id')
       
+      names(geneframe)[names(geneframe) == 'chr'] <- 'seqnames'
+      
       #tstframe <- data.frame(seqnames = c('chr1', 'chr2'), start = c(1, 2500), end = c(100000, 225000),
       #                       strand = c('+', '-'), gene_id = c('tst1', 'tst2'), stringsAsFactors = FALSE)
       #geneframe <- rbind(geneframe[1:3,], tstframe, geneframe[4:47,])
