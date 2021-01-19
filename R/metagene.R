@@ -835,6 +835,9 @@ metaplot <- function(metafile,
     
     genes <- getfpkm(features = genes, reads = reads, readsdepth = readsdepth)
     genes <- genes[genes$fpkm > fpkmcutoff]
+    if(length(genes) == 0){
+      return(NULL)
+    }
     genes <- GenomicAlignments::sort(genes)
     names(genes) <- 1:length(genes)
     

@@ -1062,6 +1062,9 @@ calrate <- function(time1file, time2file,
     
     genes <- getfpkm(features = genes, reads = reads1, readsdepth = reads1depth)
     genes <- genes[genes$fpkm > fpkmcutoff]
+    if(length(genes) == 0){
+      return(NULL)
+    }
     genes <- GenomicAlignments::sort(genes)
     names(genes) <- 1:length(genes)
     

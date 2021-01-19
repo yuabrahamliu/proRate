@@ -366,6 +366,9 @@ calpauseidx <- function(bamfile,
     
     genebody <- getfpkm(features = genebody, reads = reads, readsdepth = readsdepth)
     genebody <- genebody[genebody$fpkm > fpkmcutoff]
+    if(length(genebody) == 0){
+      return(NULL)
+    }
     genebody <- GenomicAlignments::sort(genebody)
     names(genebody) <- 1:length(genebody)
     
