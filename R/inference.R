@@ -1236,6 +1236,10 @@ calrate <- function(time1file, time2file,
     for(i in 1:length(savegenenames)){
       savegenename <- savegenenames[i]
       
+      if(!(savegenename %in% names(binplots))){
+        next()
+      }
+      
       print(binplots[[savegenename]])
       print(expandplots[[savegenename]])
       
