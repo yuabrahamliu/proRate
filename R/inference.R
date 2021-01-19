@@ -547,8 +547,8 @@ binratio <- function(singlegeneinfo,
   genecov2 <- S4Vectors::Rle(emis2_adj)
   vi1 <- IRanges::Views(genecov1, start = starts, width = size)
   vi2 <- IRanges::Views(genecov2, start = starts, width = size)
-  windows1 <- IRanges::ViewSums(vi1)
-  windows2 <- IRanges::ViewSums(vi2)
+  windows1 <- IRanges::viewSums(vi1)
+  windows2 <- IRanges::viewSums(vi2)
   
   #Generate the bin ratios between time points
   gene <- windows2/windows1
