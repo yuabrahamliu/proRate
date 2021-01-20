@@ -1320,6 +1320,10 @@ mmetaplot <- function(metafiles,
     
   }
   
+  if(length(metafilelength) == 0){
+    return(NULL)
+  }
+  
   j <- 1
   for(j in 1:length(reslist)){
     res <- reslist[[j]]
