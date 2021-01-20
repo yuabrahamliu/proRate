@@ -1320,7 +1320,7 @@ mmetaplot <- function(metafiles,
     
   }
   
-  if(length(metafilelength) == 0){
+  if(length(reslist) == 0){
     return(NULL)
   }
   
