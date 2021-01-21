@@ -620,7 +620,9 @@ mcalpauseidx <- function(bamfiles,
     for(k in 1:length(savegenenames)){
       
       plotsinglegenename <- savegenenames[k]
-      
+      if(length(reslist) == 0){
+        return(NULL)
+      }
       l <- 1
       for(l in 1:length(reslist)){
         res <- reslist[[l]]

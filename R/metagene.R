@@ -1444,7 +1444,9 @@ mmetaplot <- function(metafiles,
       plotsinglegenename <- savegenenames[k]
       
       if(genebodylen > 0){
-        
+        if(length(reslist) == 0){
+          return(NULL)
+        }
         l <- 1
         for(l in 1:length(reslist)){
           res <- reslist[[l]]
