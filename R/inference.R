@@ -1283,7 +1283,7 @@ calrate <- function(time1file, time2file,
 #'  are required. All genes should have a length greater than at least 4000bp.
 #'@param genomename Specify the genome of the genes to be analyzed, when the 
 #'  parameter \code{targetfile} is NULL.
-#'@param time The time differences between time1files and time2files, using 
+#'@param times The time differences between time1files and time2files, using 
 #'  min as its unit. Should be a vector with each element as the time 
 #'  difference between the time1file and time2file presented in the 
 #'  corresponding positions in \code{time1files} vector and \code{time2files} 
