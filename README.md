@@ -1,6 +1,6 @@
 # Tutorial for R package proRate
 
-### Yu Liu
+### 
 ### 1/22/2021
 
 ## Introduction
