@@ -78,6 +78,8 @@ makepauseregion <- function(filename = pauseidxtargetfile, pauselen = 1000, geno
   }else if(!is.null(genomename)){
     
     genes <- get(paste0(genomename, '.packagegenes'))
+    #genes <- readRDS(paste0(genomename, '.packagegenes.rds'))
+    
     genes <- GenomicRanges::GRanges(genes)
     
     genes <- genes[genes@ranges@width > max(pauselen, genelencutoff)]
@@ -392,6 +394,17 @@ calpauseidx <- function(bamfile,
   t <- 4
   
   for(t in 1:threads){
+    
+    
+    
+    if((t - 1)*subsize + 1 > length(pause)){
+      
+      next()
+      
+    }
+    
+    
+    
     subpause <- pause[((t - 1)*subsize + 1):min(t*subsize, length(pause)),]
     subelong <- elong[((t - 1)*subsize + 1):min(t*subsize, length(elong)),]
     subgenebody <- genebody[((t - 1)*subsize + 1):min(t*subsize, length(genebody)),]
@@ -433,6 +446,17 @@ calpauseidx <- function(bamfile,
     if(length(subreads) == 0 | length(subpause) == 0){
       next()
     }
+    
+    
+    
+    #sharedgenes <- intersect(intersect(subpause$gene_id, subelong$gene_id), 
+    #                         subgenebody$gene_id)
+    
+    #subpause <- subpause[subpause$gene_id %in% sharedgenes]
+    #subelong <- subelong[subelong$gene_id %in% sharedgenes]
+    #subgenebody <- subgenebody[subgenebody$gene_id %in% sharedgenes]
+    
+    
     
     unitlist <- list(subpasue = subpause, subelong = subelong, subgenebody = subgenebody,
                      subreads = subreads)
@@ -476,6 +500,8 @@ calpauseidx <- function(bamfile,
     date()
     
     parallel::stopCluster(cl)
+    
+    unregister_dopar()
     
   }
   
