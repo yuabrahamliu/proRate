@@ -1369,6 +1369,27 @@ metaplot <- function(metafile,
 #'  sub-lists including the information of the FPKM values on specific regions 
 #'  for each gene, the concrete FPM value on each bp position for the metagene 
 #'  plots, and the genes indicated by the parameter \code{savegenenames}, etc. 
+#'
+#'
+#'
+#'@examples
+#'library(proRate)
+#'
+#'wt0file <- system.file("extdata", "wt0.bam", package = "proRate")
+#'ko0file <- system.file("extdata", "ko0.bam", package = "proRate")
+#'
+#'metareslist <- mmetaplot(metafiles = c(wt0file, ko0file), 
+#'                         labels = c("WT", "KO"), 
+#'                         tssradius = c(1000, 500), 
+#'                         ttsradius = c(1000), 
+#'                         genebodylen = 2000, 
+#'                         strandmethod = 1, 
+#'                         genomename = "mm10", 
+#'                         genelencutoff = 40000, 
+#'                         fpkmcutoff = 1)
+#'
+#'
+#'
 #'@export
 mmetaplot <- function(metafiles,
                       targetgenefile = NULL,

@@ -130,6 +130,53 @@ towig <- function(reads, strand = "*", chrom = NULL){
 #'@param titlesize The font size for the plot title. Default is 17. 
 #'@param textsize The font size for the plot texts. Default is 16.
 #'@return The processed metagene plot with the FPM outliers removed. 
+#'
+#'
+#'
+#'@examples
+#'library(proRate)
+#'
+#'wt0file <- system.file("extdata", "wt0.bam", package = "proRate")
+#'ko0file <- system.file("extdata", "ko0.bam", package = "proRate")
+#'
+#'metareslist <- mmetaplot(metafiles = c(wt0file, ko0file), 
+#'                         labels = c("WT", "KO"), 
+#'                         tssradius = c(1000, 500), 
+#'                         ttsradius = c(1000), 
+#'                         genebodylen = 2000, 
+#'                         strandmethod = 1, 
+#'                         genomename = "mm10", 
+#'                         genelencutoff = 40000, 
+#'                         fpkmcutoff = 1)
+#'
+#'combinefwdlist <- list()
+#'
+#'combinerevlist <- list()
+#'
+#'for(i in seq(1, 2, 1)){
+#'  
+#'  groupname <- c("WT", "KO")[i]
+#'  
+#'  combinefwdlist[[i]] <- metareslist[[groupname]]$combinefwdFPMmeans
+#'  
+#'  combinerevlist[[i]] <- metareslist[[groupname]]$combinerevFPMmeans
+#'  
+#'}
+#'
+#'plotprocessing(fwdlist = combinefwdlist, 
+#'               revlist = combinerevlist, 
+#'               
+#'               cutoff = 0.01, 
+#'               groupnames = c("WT", "KO"), 
+#'               labels = c("-1000", "TSS", "TTS", "+1000"), 
+#'               lineposes = c(1001, 3000), 
+#'               
+#'               title = "WT_KO metagene from -1000bp of TSS to +1000bp of TTS", 
+#'               titlesize = 17, 
+#'               textsize = 16)
+#'
+#'
+#'
 #'@export
 plotprocessing <- function(fwdlist, 
                            revlist, 
@@ -262,6 +309,46 @@ plotprocessing <- function(fwdlist,
 #'  least sum of squares method, or "HMM" for the hidden Markov model method.
 #'@return The modified gene rate inference plots with the gene's coordinate 
 #'  track added.
+#'
+#'
+#'
+#'@examples
+#'library(proRate)
+#'
+#'wt0file <- system.file("extdata", "wt0.bam", package = "proRate")
+#'wt15file <- system.file("extdata", "wt15.bam", package = "proRate")
+#'
+#'wtrates <- calrate(time1file = wt0file, 
+#'                   time2file = wt15file, 
+#'                   time = 15, 
+#'                   strandmethod = 1, 
+#'                   
+#'                   genomename = "mm10", 
+#'                   lencutoff = 40000, 
+#'                   fpkmcutoff = 1, 
+#'                   
+#'                   threads = 4, 
+#'                   
+#'                   startshorten = 1000, 
+#'                   endshorten = 1000, 
+#'                   window_num = 40, 
+#'                   
+#'                   method = "LSS", 
+#'                   pythonpath = NULL, 
+#'                   
+#'                   difftype = 1)
+#'
+#'addtrack(genedat = subset(wtrates$report, gene_id == "Mamdc2"), 
+#'         binplotdat = wtrates$binplots$Mamdc2, 
+#'         expandplotdat = wtrates$expandplots$Mamdc2, 
+#'         genomename = "mm10", 
+#'         method = "LSS", 
+#'         titlesize = 17, 
+#'         textsize = 16, 
+#'         face = "bold")
+#'
+#'
+#'
 #'@export
 addtrack <- function(genedat, 
                      binplotdat, 

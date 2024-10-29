@@ -1926,6 +1926,37 @@ inferfunction <- function(i = 1,
 #'  the results' significance, etc. In addition, the result list also contains 
 #'  other slots, such as "binplots" and "expandplots", which contains the data 
 #'  that can be used to plot the inference results.
+#'
+#'
+#'
+#'@examples
+#'library(proRate)
+#'
+#'wt0file <- system.file("extdata", "wt0.bam", package = "proRate")
+#'wt15file <- system.file("extdata", "wt15.bam", package = "proRate")
+#'
+#'wtrates <- calrate(time1file = wt0file, 
+#'                   time2file = wt15file, 
+#'                   time = 15, 
+#'                   strandmethod = 1, 
+#'                   
+#'                   genomename = "mm10", 
+#'                   lencutoff = 40000, 
+#'                   fpkmcutoff = 1, 
+#'                   
+#'                   threads = 4, 
+#'                   
+#'                   startshorten = 1000, 
+#'                   endshorten = 1000, 
+#'                   window_num = 40, 
+#'                   
+#'                   method = "LSS", 
+#'                   pythonpath = NULL, 
+#'                   
+#'                   difftype = 1)
+#'
+#'
+#'
 #'@export
 calrate <- function(time1file, 
                     time2file,
