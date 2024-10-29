@@ -101,3 +101,22 @@ Generate metagene plots and other information for multiple bam files, such
 as the FPM value of each bp position in the metagene plots, FPKM values in
 specific TSS, TTS, or gene body regions of each gene, etc.
 }
+\examples{
+library(proRate)
+
+wt0file <- system.file("extdata", "wt0.bam", package = "proRate")
+ko0file <- system.file("extdata", "ko0.bam", package = "proRate")
+
+metareslist <- mmetaplot(metafiles = c(wt0file, ko0file), 
+                        labels = c("WT", "KO"), 
+                        tssradius = c(1000, 500), 
+                        ttsradius = c(1000), 
+                        genebodylen = 2000, 
+                        strandmethod = 1, 
+                        genomename = "mm10", 
+                        genelencutoff = 40000, 
+                        fpkmcutoff = 1)
+
+
+
+}

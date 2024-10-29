@@ -56,3 +56,41 @@ track added.
 Add gene coordinate track to a gene's rate inference result plot generated
 by the function \code{calrate} or \code{mcalrate}.
 }
+\examples{
+library(proRate)
+
+wt0file <- system.file("extdata", "wt0.bam", package = "proRate")
+wt15file <- system.file("extdata", "wt15.bam", package = "proRate")
+
+wtrates <- calrate(time1file = wt0file, 
+                  time2file = wt15file, 
+                  time = 15, 
+                  strandmethod = 1, 
+                  
+                  genomename = "mm10", 
+                  lencutoff = 40000, 
+                  fpkmcutoff = 1, 
+                  
+                  threads = 4, 
+                  
+                  startshorten = 1000, 
+                  endshorten = 1000, 
+                  window_num = 40, 
+                  
+                  method = "LSS", 
+                  pythonpath = NULL, 
+                  
+                  difftype = 1)
+
+addtrack(genedat = subset(wtrates$report, gene_id == "Mamdc2"), 
+        binplotdat = wtrates$binplots$Mamdc2, 
+        expandplotdat = wtrates$expandplots$Mamdc2, 
+        genomename = "mm10", 
+        method = "LSS", 
+        titlesize = 17, 
+        textsize = 16, 
+        face = "bold")
+
+
+
+}

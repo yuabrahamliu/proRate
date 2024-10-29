@@ -73,3 +73,48 @@ The processed metagene plot with the FPM outliers removed.
 Process the metagene results from \code{metaplot} and \code{mmetaplot} and
 remove the extremely large FPM outliers in the original metagene plots.
 }
+\examples{
+library(proRate)
+
+wt0file <- system.file("extdata", "wt0.bam", package = "proRate")
+ko0file <- system.file("extdata", "ko0.bam", package = "proRate")
+
+metareslist <- mmetaplot(metafiles = c(wt0file, ko0file), 
+                        labels = c("WT", "KO"), 
+                        tssradius = c(1000, 500), 
+                        ttsradius = c(1000), 
+                        genebodylen = 2000, 
+                        strandmethod = 1, 
+                        genomename = "mm10", 
+                        genelencutoff = 40000, 
+                        fpkmcutoff = 1)
+
+combinefwdlist <- list()
+
+combinerevlist <- list()
+
+for(i in seq(1, 2, 1)){
+ 
+ groupname <- c("WT", "KO")[i]
+ 
+ combinefwdlist[[i]] <- metareslist[[groupname]]$combinefwdFPMmeans
+ 
+ combinerevlist[[i]] <- metareslist[[groupname]]$combinerevFPMmeans
+ 
+}
+
+plotprocessing(fwdlist = combinefwdlist, 
+              revlist = combinerevlist, 
+              
+              cutoff = 0.01, 
+              groupnames = c("WT", "KO"), 
+              labels = c("-1000", "TSS", "TTS", "+1000"), 
+              lineposes = c(1001, 3000), 
+              
+              title = "WT_KO metagene from -1000bp of TSS to +1000bp of TTS", 
+              titlesize = 17, 
+              textsize = 16)
+
+
+
+}

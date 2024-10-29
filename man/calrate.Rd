@@ -196,3 +196,32 @@ that can be used to plot the inference results.
 Calculate gene elongation rate from a pair of Pro-seq or Gro-seq data, using
 the LSS (least sum of squares) or HMM (hidden Markov model) method.
 }
+\examples{
+library(proRate)
+
+wt0file <- system.file("extdata", "wt0.bam", package = "proRate")
+wt15file <- system.file("extdata", "wt15.bam", package = "proRate")
+
+wtrates <- calrate(time1file = wt0file, 
+                  time2file = wt15file, 
+                  time = 15, 
+                  strandmethod = 1, 
+                  
+                  genomename = "mm10", 
+                  lencutoff = 40000, 
+                  fpkmcutoff = 1, 
+                  
+                  threads = 4, 
+                  
+                  startshorten = 1000, 
+                  endshorten = 1000, 
+                  window_num = 40, 
+                  
+                  method = "LSS", 
+                  pythonpath = NULL, 
+                  
+                  difftype = 1)
+
+
+
+}
