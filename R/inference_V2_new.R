@@ -1345,11 +1345,11 @@ transpoint <- function(ratios,
     
   }else{
       
-    #hmmpyfile <- system.file("python", "hmm_r.py", package = "proRate")
+    hmmpyfile <- system.file("python", "hmm_r.py", package = "proRate")
     #hmmpyfile <- 
     #  'C:/Users/yuabr/Desktop/Transfer/codetransfer/proRate/proRate_V2/R/proRate_V2/hmm_r.py'
     
-    hmmpyfile <- '/rsrch5/scratch/lym_myl/yliu46/tmp/rate/codes/proRate_V2/hmm_r.py'
+    
     
     if(!is.null(pythonpath)){
       
