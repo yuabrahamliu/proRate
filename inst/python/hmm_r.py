@@ -261,6 +261,8 @@ def hmm_r(ratios,
     import numpy as np
 
     from hmmlearn import hmm
+
+    hmmseed = int(hmmseed)
     
     def gaussion_prior(x):
         
