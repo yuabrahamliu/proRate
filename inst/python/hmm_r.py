@@ -349,7 +349,7 @@ def hmm_r(ratios,
             
             break
         
-        print(i)
+        #print(i)
         
 
     model.transmat_[1:,] = transmat_prior[1:,]
