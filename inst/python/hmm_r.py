@@ -106,7 +106,7 @@ def scmerfunction(fname2load, trainsub, anno2load, y2load, K, k):
     return features
 
 #%% Config
-"""
+
 import os
 import pandas as pd
 import numpy as np
@@ -115,7 +115,9 @@ import rpy2.robjects as robjects
 
 from hmmlearn import hmm
 
-wkdir = 'C:\\Users\\yuabr\\Desktop\\Transfer\\codetransfer\\proRate\\proRate_V2\\'
+#wkdir = 'C:\\Users\\yuabr\\Desktop\\Transfer\\codetransfer\\proRate\\proRate_V2\\'
+
+wkdir = 'C:\\Users\\Yu Liu\\Desktop\\proRate\\data\\'
 
 os.chdir(wkdir)
 
@@ -250,7 +252,7 @@ try:
 except ValueError: 
     
     res = None
-"""
+
 
 
 
@@ -261,7 +263,7 @@ def hmm_r(ratios,
     import numpy as np
 
     from hmmlearn import hmm
-
+    
     hmmseed = int(hmmseed)
     
     def gaussion_prior(x):
