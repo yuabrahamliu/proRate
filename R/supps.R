@@ -327,7 +327,7 @@ plotprocessing <- function(fwdlist,
 #'                   lencutoff = 40000, 
 #'                   fpkmcutoff = 1, 
 #'                   
-#'                   threads = 4, 
+#'                   threads = 1, 
 #'                   
 #'                   startshorten = 1000, 
 #'                   endshorten = 1000, 

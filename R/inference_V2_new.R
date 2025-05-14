@@ -1347,7 +1347,7 @@ transpoint <- function(ratios,
       
     hmmpyfile <- system.file("python", "hmm_r.py", package = "proRate")
     #hmmpyfile <- 
-    #  'C:/Users/yuabr/Desktop/Transfer/codetransfer/proRate/proRate_V2/R/proRate_V2/hmm_r.py'
+    #  'C:/Users/Yu Liu/Desktop/proRate/proRate-master/inst/python/hmm_r.py'
     
     
     
@@ -1944,7 +1944,7 @@ inferfunction <- function(i = 1,
 #'                   lencutoff = 40000, 
 #'                   fpkmcutoff = 1, 
 #'                   
-#'                   threads = 4, 
+#'                   threads = 1, 
 #'                   
 #'                   startshorten = 1000, 
 #'                   endshorten = 1000, 
@@ -3121,7 +3121,7 @@ calrate <- function(time1file,
 #                  lencutoff = 40000, 
 #                  fpkmcutoff = 1, 
 #                
-#                  threads = 6, 
+#                  threads = 1, 
 #                  
 #                  startshorten = 1000, 
 #                  endshorten = 1000, 
@@ -3142,7 +3142,7 @@ calrate <- function(time1file,
 #                  lencutoff = 40000, 
 #                  fpkmcutoff = 1, 
 #                  
-#                  threads = 6, 
+#                  threads = 1, 
 #                  
 #                  startshorten = 1000, 
 #                  endshorten = 1000, 
