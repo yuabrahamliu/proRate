@@ -1,13 +1,13 @@
 # Tutorial for R package proRate
 
 ### Yu Liu
-### 10/12/2024
+### 5/9/2025
 
 ## Introduction
 
 The dynamics of transcriptional elongation can influence various post-transcriptional processes, such as splicing, polyadenylation, and nuclear export *[1-5]*. To quantify the elongation rate, a typical method is to treat cells with drugs able to inhibit Polymerase II (Pol II) from entering the gene bodies and starting transcription, such as DRB (5,6-dichloro-1-beta-d-ribofuranosylbenzimidazole), and then track Pol II using Pro-seq or Gro-seq *[6, 7]*. As the DRB-dependent blocking of Pol II entry persists, a read blank region will form on the gene body because few Pol II enter it. Downstream of this blank region (Pol II depleted state) is the intact read region (Pol II occupied state) formed by the unaffected Pol II having entered the gene body before the drug blocking. Hence, the length of the blank region is considered the distance Pol II should have gone through during the blocking period, and the corresponding Pol II transcription rate can be obtained based on this distance and the blocking time.
 
-To get the distance, the transition point between the Pol II depleted state and the occupied state must be identified. Traditionally, a 2-state hidden Markov model (HMM) is used to infer this elongation rate from Pro-seq or Gro-seq data *[6]*. However, this method is complicated with many parameters to be estimated and the model’s hidden variable to be solved by the expectation-maximization (EM) iteration *[8]*. In addition, it typically assumes that the observed continuous data follow a normal distribution, which cannot always be fulfilled. Hence, we tried to solve the problem using a different method and developed the R package *proRate*. It identifies the transition point via a novel least sum of squares (LSS) method, which is more efficient than HMM and has no requirement on the data distribution. In addition, this package also offers other functions frequently used when studying transcription dynamics, such as metagene plotting, pausing index calculation, and differential gene identification.
+To get the distance, the transition point between the Pol II depleted state and the occupied state must be identified. Traditionally, a 2-state hidden Markov model (HMM) is used to infer this elongation rate from Pro-seq or Gro-seq data *[6]*. However, this method is complicated with many parameters to be estimated and the model's hidden variable to be solved by the expectation-maximization (EM) iteration *[8]*. In addition, it typically assumes that the observed continuous data follow a normal distribution, which cannot always be fulfilled. Hence, we tried to solve the problem using a different method and developed the R package *proRate*. It identifies the transition point via a novel least sum of squares (LSS) method, which is more efficient than HMM and has no requirement on the data distribution. In addition, this package also offers other functions frequently used when studying transcription dynamics, such as metagene plotting, pausing index calculation, and differential gene identification.
 
 ## Package installation
 
@@ -23,12 +23,11 @@ install_github("yuabrahamliu/proRate")
 
 ## Data preparation
 
-To demonstrate the functions of *proRate*, this tutorial uses some data accompanying the package, including four bam files. 
+To demonstrate the functions of *proRate*, this tutorial uses some data accompanying the package, including four bam files.
 
 All four bam files are from a previous work studying the influence of the elongation factor Paf1C on RNA polymerase II transcription rate *[6]*. Shortly, gene editing was used to produce mouse myoblast C2C12 cells with the factor Paf1C conditionally knocked out (KO cells), while some wild C2C12 cells with intact Paf1C expression were used as controls (WT cells). Then, both the KO cells and WT cells were divided into two groups; one of them was treated with the drug DRB to block RNA polymerase II from entering the gene bodies for 15 min (15 min group), while the other was not treated with DRB (0 min group). Hence, the four bam files represent four experimental conditions. They are WT cells + 0 min DRB (wt0), WT cells + 15 min DRB (wt15), KO cells + 0 min DRB (ko0), and KO cells + 15 min DRB (ko15). After the DRB treatment step, Pro-seq was used to sequence nascent RNA for the C2C12 cells in these four conditions, and the bam files were transformed from these Pro-seq data. To simplify the analysis in this tutorial, only reads from mouse chromosome 19, the smallest autosome in the mouse genome, are included in the four bam files. 
 
 Next, attach *proRate* to the R session and get the directories of its accompanied example files above.
-
 ```
 library(proRate)
 
@@ -46,7 +45,7 @@ The two most important parameters are `time1file` and `time2file`. Here, `time1f
 
 Then, the parameter `genomename` is set as “mm10”, which means that in the above `time1file` and `time2file`, the genes in the mouse "mm10" genome should be analyzed. In addition, the parameters `genelencutoff` and `fpkmcutoff`, which are set as 40000 and 1, respectively, further require only the genes with a length greater than 40000 bp and an FPKM expression value greater than 1 in `time1file` will be analyzed.
 
-Because bam file processing is time-consuming, `calrate` provides a parallelization option. Its parameter `threads` can be set to a multiple-thread number to save computing time. Here, it is set to 4.
+Because bam file processing is time-consuming, `calrate` provides a parallelization option. Its parameter `threads` can be set to a multiple-thread number to save computing time.
 
 Then, the parameters `startshorten` and `endshorten` are set to 1000, which means that before inferring a gene's transcription rate, its first 1000 bp and last 1000 bp regions will be discarded to avoid unstable reads at the transcription starting and ending stages. In addition, these two parameters also set a cutoff for the genes, i.e., only those with a length greater than 2*(`startshorten` + `endshorten`) will be included in the analysis.
 
@@ -68,7 +67,7 @@ wtrates <- calrate(time1file = wt0file,
                    lencutoff = 40000, 
                    fpkmcutoff = 1, 
                    
-                   threads = 4, 
+                   threads = 1, 
                    
                    startshorten = 1000, 
                    endshorten = 1000, 
@@ -114,7 +113,7 @@ head(wtrates$report)
 #> 6       0.7977802     66465 0.4751674 0.11949146 75.033895
 ```
 
-As mentioned above, to infer a gene’s transition point between the Pol II depleted region and the occupied region, *proRate* first divides the gene body into 40 bins, which can also be set as other bin numbers via the parameter `window_num`, and then calculates the normalized read ratio between `time2file` and `time1file` for each bin to identify the transition bin. After that, the single-base-level transition point can be further identified within the merged region of this bin and its downstream neighbor. Both the LSS and HMM methods can be used to infer the transition bin and transition base pair. From the “report” slot of `wtrates` above, the gene Mamdc2 has the most significant difference between its two regions. Then, another function, `addtrack,` can be used to show the plots for its bin-level and base-level ratios and the inferred transition bin and base pair. Its parameter `genedat` accepts a subset of `wtrates`’s “report” slot. Here, it is the one only containing the row for the gene `Mamdc2`. The parameters `binplotdat` and `expandplotdat` accept the plot data for the bin level and base level, which can be reached from `wtrates`’s other two slots, i.e., “binplots” and “expandplots”. The parameters `genomename` and `method` are the ones previously used by `calrate`, and the parameters `textsize`, `titlesize`, `face` are used to control the font size and face of the texts and title of the plots.
+As mentioned above, to infer a gene's transition point between the Pol II depleted region and the occupied region, *proRate* first divides the gene body into 40 bins, which can also be set as other bin numbers via the parameter `window_num`, and then calculates the normalized read ratio between `time2file` and `time1file` for each bin to identify the transition bin. After that, the single-base-level transition point can be further identified within the merged region of this bin and its downstream neighbor. Both the LSS and HMM methods can be used to infer the transition bin and transition base pair. From the “report” slot of `wtrates` above, the gene Mamdc2 has the most significant difference between its two regions. Then, another function, `addtrack,` can be used to show the plots for its bin-level and base-level ratios and the inferred transition bin and base pair. Its parameter `genedat` accepts a subset of `wtrates`'s “report” slot. Here, it is the one only containing the row for the gene `Mamdc2`. The parameters `binplotdat` and `expandplotdat` accept the plot data for the bin level and base level, which can be reached from `wtrates`'s other two slots, i.e., “binplots” and “expandplots”. The parameters `genomename` and `method` are the ones previously used by `calrate`, and the parameters `textsize`, `titlesize`, `face` are used to control the font size and face of the texts and title of the plots.
 
 ```
 addtrack(genedat = subset(wtrates$report, gene_id == "Mamdc2"), 
@@ -131,9 +130,9 @@ addtrack(genedat = subset(wtrates$report, gene_id == "Mamdc2"),
 
 ![](https://github.com/yuabrahamliu/proRate/blob/master/vignettes/tutorialfig2.png)
 
-The vertical lines in the plots indicate the inferred transition bin and base pair, and the plots’ titles show their coordinate on the bin and base levels.
+The vertical lines in the plots indicate the inferred transition bin and base pair, and the plots' titles show their coordinate on the bin and base levels.
 
-Similarly, KO cells’ gene transcription rates can be calculated via `calrate`.
+Similarly, KO cells' gene transcription rates can be calculated via `calrate`.
 
 ```
 korates <- calrate(time1file = ko0file, 
@@ -145,7 +144,7 @@ korates <- calrate(time1file = ko0file,
                    lencutoff = 40000, 
                    fpkmcutoff = 1, 
                    
-                   threads = 4, 
+                   threads = 2, 
                    
                    startshorten = 1000, 
                    endshorten = 1000, 
@@ -157,7 +156,7 @@ korates <- calrate(time1file = ko0file,
                    difftype = 1)
 ```
 
-Then, the genes with a significant transition point can be extracted from the WT and KO cells’ results, respectively, and used to compare the WT and KO cells’ rates. The plot below shows that the KO ones without the Paf1C transcriptional factor have smaller rates than the WT ones. Although the p-value is insignificant given the small gene number, we can still get the trend, which demonstrates that Paf1C knockout reduces genes’ transcription rates, consistent with the original study’s conclusion *[6]*.
+Then, the genes with a significant transition point can be extracted from the WT and KO cells' results, respectively, and used to compare the WT and KO cells' rates. The plot below shows that the KO ones without the Paf1C transcriptional factor have smaller rates than the WT ones. Although the p-value is insignificant given the small gene number, we can still get the trend, which demonstrates that Paf1C knockout reduces genes' transcription rates, consistent with the original study's conclusion *[6]*.
 
 ```
 interrates <- function(ratesreports, 
@@ -249,6 +248,128 @@ interrates(ratesreports = list(subset(wtrates$report, significance == "significa
 ```
 
 ![](https://github.com/yuabrahamliu/proRate/blob/master/vignettes/tutorialfig3.png)
+
+## Compare between the LSS and the HMM methods
+
+As mentioned above, the function `calrate` can infer the gene transcription rates not only with the LSS method but also with the traditional HMM method. To perform the latter, the parameter `method` should be set as “HMM”, rather than “LSS”. At the same time, another parameter, `pythonpath`, should be set. It is because the conduction of HMM depends on the communication with some *Python* functions, and the `pythonpath` parameter is the directory of the *Python* interpreter to be used. In addition, two *Python* modules, `numpy` and `hmmlearn`, should be installed there.
+
+If the *Python* interpreter is installed with *Anaconda*, its path can be found within RStudio. After opening the RStudio interface, select its “Tools” menu list, and then select the “Global Options…” button. Next, select the “Python” button on the left panel, and finally, tap the “Select…” button on the right panel. As a result, the candidate *Python* interpreter paths will be shown in the “Conda Environments” card on the right panel. Select the one that will be used for the HMM method, and run the following command lines in RStudio, so that this path can be stored by the `reticulate` R package. For example, if the last candidate *Python* interpreter shown in the card is selected in RStudio, the command lines to find it with `reticulate` is like this.
+
+```
+library(reticulate)
+
+pythonpaths <- conda_list()
+pythonpath <- pythonpaths$python[nrow(pythonpaths)]
+```
+
+Then, the above variable `pythonpath` can be transferred to the parameter `pythonpath`, which indicates the *Python* interpreter to be used.  Another parameter `method` can be set as “HMM” to start `calrate`'s HMM inference function. For example, the transcription rates of the wt15 sample can be inferred with HMM using the command below. Compared with the LSS inference before, only the parameters `method` and `pythonpath` need to be changed.
+
+```
+wtrates.hmm <- calrate(time1file = wt0file, 
+                       time2file = wt15file, 
+                       time = 15, 
+                       strandmethod = 1, 
+                       
+                       genomename = "mm10", 
+                       lencutoff = 40000, 
+                       fpkmcutoff = 1, 
+                       
+                       threads = 1, 
+                       
+                       startshorten = 1000, 
+                       endshorten = 1000, 
+                       window_num = 40, 
+                       
+                       method = "HMM", 
+                       pythonpath = pythonpath, 
+                       
+                       difftype = 1)
+```
+
+The result `wtrates.hmm` is also a list, containing the “report” data frame. And the transcription distances and rates inferred by HMM can be found here.
+
+```
+head(wtrates.hmm$report)
+#>   gene_id distance time     rate significance      binpadj      binpval
+#> 1  Mamdc2    72901   15 4860.067  significant 3.351553e-10 1.523433e-11
+#> 2  Ppp6r3    33671   15 2244.733  significant 3.937816e-09 3.579833e-10
+#> 3   Mark2    54497   15 3633.133  significant 7.866881e-07 1.072756e-07
+#> 4   Ostf1    27620   15 1841.333  significant 3.280890e-05 5.965255e-06
+#> 5   Ptar1    29513   15 1967.533  significant 4.618113e-05 1.049571e-05
+#> 6  Cemip2    31040   15 2069.333  significant 2.784713e-04 8.860452e-05
+#>   frontbinratio latterbinratio diffbinratio   chr    start      end strand
+#> 1     0.5046868       1.579635    1.0749482 chr19 23302609 23448442      -
+#> 2     0.6014897       1.313899    0.7124097 chr19  3454928  3575749      -
+#> 3     0.8828105       1.648096    0.7652853 chr19  7275396  7341860      -
+#> 4     0.7232864       1.929708    1.2064215 chr19 18516137 18631823      -
+#> 5     0.8391100       1.968977    1.1298671 chr19 23687429 23731668      +
+#> 6     0.7282955       1.748306    1.0200101 chr19 21778342 21858360      +
+#>      extendpadj    extendpval frontextendratio latterextendratio
+#> 1  3.902620e-01  1.084061e-01        0.3569581         2.1565571
+#> 2  5.455118e-01  3.030621e-01        0.6185415         0.7365628
+#> 3  0.000000e+00  0.000000e+00        0.7357869         1.4219637
+#> 4  0.000000e+00  0.000000e+00        0.7723933         1.9553504
+#> 5  4.699205e-01  1.827469e-01        0.5847388         3.2371199
+#> 6 3.655874e-280 8.124164e-281        0.9012480         5.5374018
+#>   diffextendratio genewidth        GC       exon      fpkm
+#> 1       1.7995990    145834 0.4232621 0.02694845  5.043759
+#> 2       0.1180213    120822 0.4277036 0.07761831 52.810645
+#> 3       0.6861768     66465 0.4751674 0.11949146 75.033895
+#> 4       1.1829571    115687 0.4313795 0.04417091 14.822840
+#> 5       2.6523811     44240 0.4089060 0.28955696 24.338632
+#> 6       4.6361538     80019 0.4390207 0.10647471 68.830831
+```
+
+This result can be compared with the previous one generated by LSS. From their “report” data frames, it can be seen that HMM and LSS return different distance results for many genes. This is because they identify different transition points between the Pol II depleted and occupied states. For example, for the gene Mamdc2, LSS returns its distance as 74514 bp, as shown before, which means it identifies this point as the transition point. On the other hand, HMM returns Mamdc2's distance as 72901 bp, and this transition point is different from the LSS one. The bin-level plot drawn by `addtrack` shows that HMM's transition point is located in the same bin as the LSS one because their bin-level plots are the same. However, on the single-base level, HMM's point is different from the LSS one, as shown by the HMM plots below and the LSS plots before. It can be seen directly that LSS's single-base-level point is more reasonable than HMM's.
+
+```
+addtrack(genedat = subset(wtrates.hmm$report, gene_id == "Mamdc2"), 
+         binplotdat = wtrates.hmm$binplots$Mamdc2, 
+         expandplotdat = wtrates.hmm$expandplots$Mamdc2, 
+         genomename = "mm10", 
+         method = "HMM", 
+         titlesize = 17, 
+         textsize = 16, 
+         face = "bold")
+```
+
+![](https://github.com/yuabrahamliu/proRate/blob/master/vignettes/tutorialfig_hmm_mamdc2_1.png)
+
+![](https://github.com/yuabrahamliu/proRate/blob/master/vignettes/tutorialfig_hmm_mamdc2_2.png)
+
+Another example is the gene Cemip2. LSS and HMM also return different distances and transition points, which can be seen from `addtrack`'s plots below. LSS's point is more reasonable than HMM's.
+
+```
+#LSS results
+addtrack(genedat = subset(wtrates.hmm$report, gene_id == "Cemip2"), 
+         binplotdat = wtrates.hmm$binplots$Mamdc2, 
+         expandplotdat = wtrates.hmm$expandplots$Mamdc2, 
+         genomename = "mm10", 
+         method = "LSS", 
+         titlesize = 17, 
+         textsize = 16, 
+         face = "bold")
+```
+
+![](https://github.com/yuabrahamliu/proRate/blob/master/vignettes/tutorialfig_lss_cemip2_1.png)
+
+![](https://github.com/yuabrahamliu/proRate/blob/master/vignettes/tutorialfig_lss_cemip2_2.png)
+
+```
+#HMM results
+addtrack(genedat = subset(wtrates.hmm$report, gene_id == "Cemip2"), 
+         binplotdat = wtrates.hmm$binplots$Mamdc2, 
+         expandplotdat = wtrates.hmm$expandplots$Mamdc2, 
+         genomename = "mm10", 
+         method = "HMM", 
+         titlesize = 17, 
+         textsize = 16, 
+         face = "bold")
+```
+
+![](https://github.com/yuabrahamliu/proRate/blob/master/vignettes/tutorialfig_hmm_cemip2_1.png)
+
+![](https://github.com/yuabrahamliu/proRate/blob/master/vignettes/tutorialfig_hmm_cemip2_2.png)
 
 ## Metagene plotting
 
