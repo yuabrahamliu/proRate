@@ -106,7 +106,7 @@ def scmerfunction(fname2load, trainsub, anno2load, y2load, K, k):
     return features
 
 #%% Config
-
+"""
 import os
 import pandas as pd
 import numpy as np
@@ -253,7 +253,7 @@ except ValueError:
     
     res = None
 
-
+"""
 
 
 def hmm_r(ratios, 
