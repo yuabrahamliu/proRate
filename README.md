@@ -1,7 +1,5 @@
 # Tutorial for R package proRate
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16780694.svg)](https://doi.org/10.5281/zenodo.16780694)
-
 ### Yu Liu
 ### 5/9/2025
 
@@ -491,6 +489,7 @@ Then, the function will return the new metagene plot with the extremely large FP
 6.	Hou L, Wang Y, Liu Y et al. Paf1C regulates RNA polymerase II progression by modulating elongation rate, Proceedings of the National Academy of Sciences 2019;116:14583-14592.
 7.	Fuchs G, Voichek Y, Benjamin S et al. 4sUDRB-seq: measuring genomewide transcriptional elongation rates and initiation frequencies within cells, Genome Biology 2014;15:R69.
 8.	Rabiner LR. A tutorial on hidden Markov models and selected applications in speech recognition, Proceedings of the IEEE 1989;77:257-286.
+
 
 
 
